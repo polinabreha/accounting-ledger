@@ -72,6 +72,7 @@ public class AccountingApp {
                 source,
                 amount
         );
+
         bw.write(t.toString());
         bw.newLine();
         bw.close();
