@@ -56,7 +56,7 @@ public class AccountingApp {
 
     }
 
-    public static ArrayList<Transactions> deposit(Scanner input, ArrayList<Transactions> account) throws IOException {
+    public static void deposit(Scanner input, ArrayList<Transactions> account) throws IOException {
         BufferedWriter bw = new BufferedWriter(new FileWriter("src/main/resources/transactions.csv", true));
         LocalDateTime depositTime = LocalDateTime.now();
         DateTimeFormatter dateFormatted = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -85,7 +85,6 @@ public class AccountingApp {
         bw.write(t.toString() + "\n");
         bw.close();
         account.add(t);
-        return account;
     }
 
     public static void payment(Scanner input, ArrayList<Transactions> account) throws IOException {
@@ -101,9 +100,7 @@ public class AccountingApp {
         double amount = input.nextDouble();
         input.nextLine();
         if (amount > 0) {
-            System.out.print("Please enter a negative value: $");
-            amount = input.nextDouble();
-            input.nextLine();
+            amount = amount * -1;
         }
         Transactions t = new Transactions(
                 depositTime.format(dateFormatted),
@@ -179,7 +176,7 @@ public class AccountingApp {
 
     }
 
-    public static void reports (Scanner input, ArrayList<Transactions> account) throws IOException {
+    public static void reports (Scanner input, ArrayList<Transactions> account) {
         System.out.println("========== REPORTS ==========");
         System.out.println("1) Month To Date");
         System.out.println("2) Previous Month");
@@ -237,14 +234,14 @@ public class AccountingApp {
                 System.out.print("Enter the vendor: ");
                 String vendor = input.nextLine();
                 for(Transactions t : account) {
-                    if (vendor.equals(t.getVendor())) {
+                    if (vendor.equalsIgnoreCase(t.getVendor())) {
                         System.out.println(t.toString());
                     }
                 }
                 break;
 
             case 0:
-                ledgerScreen(input, account);
+                reports(input, account);
                 break;
 
             default:
