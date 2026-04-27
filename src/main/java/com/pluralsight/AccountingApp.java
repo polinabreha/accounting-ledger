@@ -133,10 +133,10 @@ public class AccountingApp {
         int choice = input.nextInt();
         input.nextLine();
         account.clear();
-        Collections.reverse(account);
 
         BufferedReader br = new BufferedReader(new FileReader("src/main/resources/transactions.csv"));
         String line;
+        br.readLine();
         while ((line = br.readLine()) != null) {
             String[] data = line.split("\\|");
             Transactions t = new Transactions(data[0], data[1], data[2],data[3], Double.parseDouble(data[4]) );
@@ -144,6 +144,7 @@ public class AccountingApp {
 
         }
         br.close();
+        Collections.reverse(account);
 
         switch (choice) {
             case 1:
@@ -181,15 +182,6 @@ public class AccountingApp {
     }
 
     public static ArrayList<Transactions> reports (Scanner input, ArrayList<Transactions> account) throws IOException {
-        BufferedReader br = new BufferedReader(new FileReader("src/main/resources/transactions.csv"));
-        String line;
-        while ((line = br.readLine()) != null) {
-            String[] data = line.split("\\|");
-            Transactions t = new Transactions(data[0], data[1], data[2],data[3], Double.parseDouble(data[4]) );
-            account.add(t);
-
-        }
-        br.close();
         System.out.println("========== REPORTS ==========");
         System.out.println("1) Month To Date");
         System.out.println("2) Previous Month");
