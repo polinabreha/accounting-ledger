@@ -39,7 +39,8 @@ public class AccountingApp {
                    case 1:
                        account = deposit(input, account);
                        break;
-
+                   case 2:
+                       account = payment(input, account);
                }
 
            }
@@ -59,11 +60,11 @@ public class AccountingApp {
         String depositInfo = input.nextLine();
         System.out.print("Enter please the Vendor / Source : ");
         String source = input.nextLine();
-        System.out.print("Enter the amount to be deposited: ");
+        System.out.print("Enter the amount to be deposited: $ ");
         double amount = input.nextDouble();
         input.nextLine();
         if (amount < 0) {
-            System.out.print("Please enter a positive value: ");
+            System.out.print("Please enter a positive value: $ ");
             amount = input.nextDouble();
             input.nextLine();
         }
@@ -79,6 +80,38 @@ public class AccountingApp {
         bw.close();
         account.add(t);
         return account;
+    }
+
+    public static ArrayList<Transactions> payment(Scanner input, ArrayList<Transactions> account) throws IOException {
+        BufferedWriter bw = new BufferedWriter(new FileWriter("src/main/resources/transactions.csv", true));
+        LocalDateTime depositTime = LocalDateTime.now();
+        DateTimeFormatter dateFormatted = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        DateTimeFormatter timeFormatted = DateTimeFormatter.ofPattern("HH:mm:ss");
+        System.out.print("Enter the information about your payment: ");
+        String payInfo = input.nextLine();
+        System.out.print("Enter please the Vendor / Source : ");
+        String source = input.nextLine();
+        System.out.print("Enter the amount that you payed (enter '-' before the amount): $ ");
+        double amount = input.nextDouble();
+        input.nextLine();
+        if (amount > 0) {
+            System.out.print("Please enter a negative value: $");
+            amount = input.nextDouble();
+            input.nextLine();
+        }
+        Transactions t = new Transactions(
+                depositTime.format(dateFormatted),
+                depositTime.format(timeFormatted),
+                payInfo,
+                source,
+                amount
+        );
+
+        bw.write(t.toString() + "\n");
+        bw.close();
+        account.add(t);
+        return account;
+
     }
 
 
