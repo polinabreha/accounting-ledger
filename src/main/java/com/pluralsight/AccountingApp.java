@@ -9,6 +9,9 @@ import java.util.Collections;
 import java.util.Scanner;
 
 public class AccountingApp {
+    static final DateTimeFormatter dateFormatted = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    static final DateTimeFormatter timeFormatted = DateTimeFormatter.ofPattern("HH:mm:ss");
+
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
 
@@ -55,65 +58,70 @@ public class AccountingApp {
        }
 
     }
-
-    public static void deposit(Scanner input, ArrayList<Transactions> account) throws IOException {
+    public static void helper(Transactions t) throws Exception{
         BufferedWriter bw = new BufferedWriter(new FileWriter("src/main/resources/transactions.csv", true));
-        LocalDateTime depositTime = LocalDateTime.now();
-        DateTimeFormatter dateFormatted = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        DateTimeFormatter timeFormatted = DateTimeFormatter.ofPattern("HH:mm:ss");
-        System.out.print("Enter the information about the deposit transaction " +
-                "\n(Example: Paycheck, Invoice 1003 paid, Bonus payment): ");
-        String depositInfo = input.nextLine();
-        System.out.print("Enter please the Vendor / Source : ");
-        String source = input.nextLine();
-        System.out.print("Enter the amount to be deposited: $ ");
-        double amount = input.nextDouble();
-        input.nextLine();
-        if (amount < 0) {
-            System.out.print("Please enter a positive value: $ ");
-            amount = input.nextDouble();
-            input.nextLine();
-        }
-        Transactions t = new Transactions(
-                depositTime.format(dateFormatted),
-                depositTime.format(timeFormatted),
-                depositInfo,
-                source,
-                amount
-        );
-
         bw.write(t.toString() + "\n");
         bw.close();
-        account.add(t);
+
     }
 
-    public static void payment(Scanner input, ArrayList<Transactions> account) throws IOException {
-        BufferedWriter bw = new BufferedWriter(new FileWriter("src/main/resources/transactions.csv", true));
-        LocalDateTime depositTime = LocalDateTime.now();
-        DateTimeFormatter dateFormatted = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        DateTimeFormatter timeFormatted = DateTimeFormatter.ofPattern("HH:mm:ss");
-        System.out.print("Enter the information about your payment: ");
-        String payInfo = input.nextLine();
-        System.out.print("Enter please the Vendor / Source : ");
-        String source = input.nextLine();
-        System.out.print("Enter the amount that you payed (enter '-' before the amount): $ ");
-        double amount = input.nextDouble();
-        input.nextLine();
-        if (amount > 0) {
-            amount = amount * -1;
+    public static void deposit(Scanner input, ArrayList<Transactions> account) {
+        try {
+            LocalDateTime depositTime = LocalDateTime.now();
+            System.out.print("Enter the information about the deposit transaction " +
+                    "\n(Example: Paycheck, Invoice 1003 paid, Bonus payment): ");
+            String depositInfo = input.nextLine();
+            System.out.print("Enter please the Vendor / Source : ");
+            String source = input.nextLine();
+            System.out.print("Enter the amount to be deposited: $ ");
+            double amount = input.nextDouble();
+            input.nextLine();
+            if (amount < 0) {
+                System.out.print("Please enter a positive value: $ ");
+                amount = input.nextDouble();
+                input.nextLine();
+            }
+            Transactions t = new Transactions(
+                    depositTime.format(dateFormatted),
+                    depositTime.format(timeFormatted),
+                    depositInfo,
+                    source,
+                    amount
+            );
+            helper(t);
+            account.add(t);
+        }catch (Exception e) {
+            System.out.println(e.getMessage());
         }
-        Transactions t = new Transactions(
-                depositTime.format(dateFormatted),
-                depositTime.format(timeFormatted),
-                payInfo,
-                source,
-                amount
-        );
+    }
 
-        bw.write(t.toString() + "\n");
-        bw.close();
-        account.add(t);
+    public static void payment(Scanner input, ArrayList<Transactions> account) {
+        try {
+            LocalDateTime depositTime = LocalDateTime.now();
+            System.out.print("Enter the information about your payment: ");
+            String payInfo = input.nextLine();
+            System.out.print("Enter please the Vendor / Source : ");
+            String source = input.nextLine();
+            System.out.print("Enter the amount that you payed : $ ");
+            double amount = input.nextDouble();
+            input.nextLine();
+            if (amount > 0) {
+                amount = amount * -1;
+            }
+            Transactions t = new Transactions(
+                    depositTime.format(dateFormatted),
+                    depositTime.format(timeFormatted),
+                    payInfo,
+                    source,
+                    amount
+            );
 
+            helper(t);
+            account.add(t);
+
+        }catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     public static void ledgerScreen(Scanner input, ArrayList<Transactions> account) throws IOException {
@@ -177,9 +185,7 @@ public class AccountingApp {
 
     public static void reports (Scanner input, ArrayList<Transactions> account) {
         try {
-            boolean running = true;
-            Collections.reverse(account);
-            while (running) {
+            while (true) {
                 System.out.println("========== REPORTS ==========");
                 System.out.println("1) Month To Date");
                 System.out.println("2) Previous Month");
@@ -244,16 +250,14 @@ public class AccountingApp {
                         break;
 
                     case 0:
-                        running = false;
-                        ledgerScreen(input, account);
-                        break;
+                        return;
 
                     default:
                         System.out.println("Invalid choice, please try again.");
                 }
             }
 
-        }catch (IOException e) {
+        }catch (Exception e) {
             System.out.println("Invalid choice, please try again.");
         }
     }
