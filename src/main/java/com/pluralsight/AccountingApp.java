@@ -176,76 +176,78 @@ public class AccountingApp {
 
     }
 
-    public static void reports (Scanner input, ArrayList<Transactions> account) {
-        System.out.println("========== REPORTS ==========");
-        System.out.println("1) Month To Date");
-        System.out.println("2) Previous Month");
-        System.out.println("3) Year To Date");
-        System.out.println("4) Previous Year");
-        System.out.println("5) Search by Vendor");
-        System.out.println("0) Back");
-        System.out.print("Enter your choice: ");
-        int choice = input.nextInt();
-        input.nextLine();
-        Collections.reverse(account);
+    public static void reports (Scanner input, ArrayList<Transactions> account) throws IOException {
+        while (true) {
+            System.out.println("========== REPORTS ==========");
+            System.out.println("1) Month To Date");
+            System.out.println("2) Previous Month");
+            System.out.println("3) Year To Date");
+            System.out.println("4) Previous Year");
+            System.out.println("5) Search by Vendor");
+            System.out.println("0) Back");
+            System.out.print("Enter your choice: ");
+            int choice = input.nextInt();
+            input.nextLine();
+            Collections.reverse(account);
 
-        switch (choice) {
-            case 1:
-                LocalDate today = LocalDate.now();
-                for (Transactions t : account) {
-                    LocalDate transactionDate = LocalDate.parse(t.getDate());
-                    if (transactionDate.getMonth() == today.getMonth() && transactionDate.getYear() == today.getYear()) {
-                        System.out.println(t.toString());
+            switch (choice) {
+                case 1:
+                    LocalDate today = LocalDate.now();
+                    for (Transactions t : account) {
+                        LocalDate transactionDate = LocalDate.parse(t.getDate());
+                        if (transactionDate.getMonth() == today.getMonth() && transactionDate.getYear() == today.getYear()) {
+                            System.out.println(t.toString());
+                        }
+
                     }
+                    break;
 
-                }
-                break;
-
-            case 2:
-                LocalDate previousMonth = LocalDate.now().minusMonths(1);
-                for (Transactions t : account) {
-                    LocalDate transactionDate = LocalDate.parse(t.getDate());
-                    if (previousMonth .getMonth() == transactionDate.getMonth() && previousMonth.getYear() == transactionDate.getYear()) {
-                        System.out.println(t.toString());
+                case 2:
+                    LocalDate previousMonth = LocalDate.now().minusMonths(1);
+                    for (Transactions t : account) {
+                        LocalDate transactionDate = LocalDate.parse(t.getDate());
+                        if (previousMonth.getMonth() == transactionDate.getMonth() && previousMonth.getYear() == transactionDate.getYear()) {
+                            System.out.println(t.toString());
+                        }
                     }
-                }
-                break;
+                    break;
 
-            case 3:
-              LocalDate thisYear = LocalDate.now();
-              for (Transactions t : account) {
-                LocalDate transactionDate = LocalDate.parse(t.getDate());
-                if(thisYear.getYear() == transactionDate.getYear()) {
-                    System.out.println(t.toString());
-                }
+                case 3:
+                    LocalDate thisYear = LocalDate.now();
+                    for (Transactions t : account) {
+                        LocalDate transactionDate = LocalDate.parse(t.getDate());
+                        if (thisYear.getYear() == transactionDate.getYear()) {
+                            System.out.println(t.toString());
+                        }
+                    }
+                    break;
+
+                case 4:
+                    LocalDate previousYear = LocalDate.now().minusYears(1);
+                    for (Transactions t : account) {
+                        LocalDate transactionDate = LocalDate.parse(t.getDate());
+                        if (previousYear.getYear() == transactionDate.getYear()) {
+                            System.out.println(t.toString());
+                        }
+                    }
+                    break;
+                case 5:
+                    System.out.print("Enter the vendor: ");
+                    String vendor = input.nextLine();
+                    for (Transactions t : account) {
+                        if (vendor.equalsIgnoreCase(t.getVendor())) {
+                            System.out.println(t.toString());
+                        }
+                    }
+                    break;
+
+                case 0:
+                    ledgerScreen(input, account);
+                    break;
+
+                default:
+                    System.out.println("Invalid choice, please try again.");
             }
-              break;
-
-            case 4:
-                LocalDate previousYear = LocalDate.now().minusYears(1);
-                for (Transactions t : account) {
-                    LocalDate transactionDate = LocalDate.parse(t.getDate());
-                    if(previousYear.getYear() == transactionDate.getYear()) {
-                        System.out.println(t.toString());
-                    }
-                }
-                break;
-            case 5:
-                System.out.print("Enter the vendor: ");
-                String vendor = input.nextLine();
-                for(Transactions t : account) {
-                    if (vendor.equalsIgnoreCase(t.getVendor())) {
-                        System.out.println(t.toString());
-                    }
-                }
-                break;
-
-            case 0:
-                reports(input, account);
-                break;
-
-            default:
-                System.out.println("Invalid choice, please try again.");
         }
 
     }
