@@ -25,25 +25,24 @@ public class AccountingApp {
            while (runTheProgram) {
 
                System.out.println("Choose of the following options:");
-               System.out.println("1. Add Deposit");
-               System.out.println("2. Make Payment (Debit)");
-               System.out.println("3. Ledger");
-               System.out.println("4. Exit");
-               System.out.print("Enter the number of the choice: ");
-               int choice = input.nextInt();
-               input.nextLine();
+               System.out.println("D) Add Deposit");
+               System.out.println("P) Make Payment (Debit)");
+               System.out.println("L) Ledger");
+               System.out.println("X) Exit");
+               System.out.print("Enter the letter of the choice: ");
+               String choice = input.nextLine().toUpperCase();
 
                switch (choice) {
-                   case 1:
+                   case "D" :
                        deposit(input, account);
                        break;
-                   case 2:
+                   case "P" :
                         payment(input, account);
                         break;
-                   case 3:
+                   case "L" :
                        ledgerScreen(input, account);
                        break;
-                   case 4:
+                   case "X" :
                        runTheProgram = false;
                        break;
                    default:
@@ -89,7 +88,7 @@ public class AccountingApp {
         return account;
     }
 
-    public static ArrayList<Transactions> payment(Scanner input, ArrayList<Transactions> account) throws IOException {
+    public static void payment(Scanner input, ArrayList<Transactions> account) throws IOException {
         BufferedWriter bw = new BufferedWriter(new FileWriter("src/main/resources/transactions.csv", true));
         LocalDateTime depositTime = LocalDateTime.now();
         DateTimeFormatter dateFormatted = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -117,21 +116,19 @@ public class AccountingApp {
         bw.write(t.toString() + "\n");
         bw.close();
         account.add(t);
-        return account;
 
     }
 
     public static void ledgerScreen(Scanner input, ArrayList<Transactions> account) throws IOException {
         System.out.println("========== LEDGER ==========");
-        System.out.println("1. All        - Display all entries");
-        System.out.println("2. Deposits   - Display only deposits");
-        System.out.println("3. Payments   - Display only payments");
-        System.out.println("4. Reports    - View reports");
-        System.out.println("5. Home       - Go back to home screen");
+        System.out.println("A) All        - Display all entries");
+        System.out.println("D) Deposits   - Display only deposits");
+        System.out.println("P) Payments   - Display only payments");
+        System.out.println("R) Reports    - View reports");
+        System.out.println("H) Home       - Go back to home screen");
         System.out.println("================================");
         System.out.print("Enter your choice: ");
-        int choice = input.nextInt();
-        input.nextLine();
+        String choice = input.nextLine().toUpperCase();
         account.clear();
 
         BufferedReader br = new BufferedReader(new FileReader("src/main/resources/transactions.csv"));
@@ -148,32 +145,32 @@ public class AccountingApp {
         Collections.reverse(account);
 
         switch (choice) {
-            case 1:
+            case "A" :
 
                 for (Transactions t : account) {
                     System.out.println(t.toString());
                 }
                 break;
 
-            case 2:
+            case "D" :
                 for (Transactions t : account) {
                     if (t.getAmount() > 0) {
                         System.out.println(t.toString());
                     }
                 }
                 break;
-            case 3:
+            case "P" :
                 for (Transactions t : account) {
                     if (t.getAmount() < 0) {
                         System.out.println(t.toString());
                     }
                 }
                 break;
-            case 4:
+            case "R" :
                 reports(input, account);
                 break;
 
-            case 5:
+            case "H" :
                 homeScreen(input);
                 break;
             default:
