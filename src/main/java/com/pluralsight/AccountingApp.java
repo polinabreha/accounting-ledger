@@ -31,7 +31,7 @@ public class AccountingApp {
                System.out.println("2. Make Payment (Debit)");
                System.out.println("3. Ledger");
                System.out.println("4. Exit");
-               System.out.println("Enter the number of the choice: ");
+               System.out.print("Enter the number of the choice: ");
                int choice = input.nextInt();
                input.nextLine();
 
@@ -54,16 +54,18 @@ public class AccountingApp {
         LocalDateTime depositTime = LocalDateTime.now();
         DateTimeFormatter dateFormatted = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         DateTimeFormatter timeFormatted = DateTimeFormatter.ofPattern("HH:mm:ss");
-        System.out.println("Enter the information about the deposit transaction " +
+        System.out.print("Enter the information about the deposit transaction " +
                 "\n(Example: Paycheck, Invoice 1003 paid, Bonus payment): ");
         String depositInfo = input.nextLine();
-        System.out.println("Enter please the Vendor / Source : ");
+        System.out.print("Enter please the Vendor / Source : ");
         String source = input.nextLine();
-        System.out.println("Enter the amount to be deposited: ");
+        System.out.print("Enter the amount to be deposited: ");
         double amount = input.nextDouble();
+        input.nextLine();
         if (amount < 0) {
-            System.out.println("Please enter a positive value: ");
+            System.out.print("Please enter a positive value: ");
             amount = input.nextDouble();
+            input.nextLine();
         }
         Transactions t = new Transactions(
                 depositTime.format(dateFormatted),
@@ -73,8 +75,7 @@ public class AccountingApp {
                 amount
         );
 
-        bw.write(t.toString());
-        bw.newLine();
+        bw.write(t.toString() + "\n");
         bw.close();
         account.add(t);
         return account;
