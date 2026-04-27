@@ -130,9 +130,9 @@ public class AccountingApp {
 
         BufferedReader br = new BufferedReader(new FileReader("src/main/resources/transactions.csv"));
         String line;
-        br.readLine();
         while ((line = br.readLine()) != null) {
             if (line.trim().isEmpty()) continue;
+            if (line.startsWith("date")) continue;
             String[] data = line.split("\\|");
             Transactions t = new Transactions(data[0], data[1], data[2],data[3], Double.parseDouble(data[4]) );
             account.add(t);
@@ -168,8 +168,7 @@ public class AccountingApp {
                 break;
 
             case "H" :
-                homeScreen(input);
-                break;
+                return ;
             default:
                 System.out.println("Invalid choice");
         }
@@ -179,6 +178,7 @@ public class AccountingApp {
     public static void reports (Scanner input, ArrayList<Transactions> account) {
         try {
             boolean running = true;
+            Collections.reverse(account);
             while (running) {
                 System.out.println("========== REPORTS ==========");
                 System.out.println("1) Month To Date");
@@ -190,7 +190,7 @@ public class AccountingApp {
                 System.out.print("Enter your choice: ");
                 int choice = input.nextInt();
                 input.nextLine();
-                Collections.reverse(account);
+
 
                 switch (choice) {
                     case 1:
