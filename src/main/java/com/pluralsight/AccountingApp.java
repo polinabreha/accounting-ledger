@@ -159,6 +159,7 @@ public class AccountingApp {
         System.out.println("R) Reports    - View reports");
         System.out.println("C) Custom Search - search transactions");
         System.out.println("B) Balance    -  See the balance  ");
+        System.out.println("S) Spending   - By category");
         System.out.println("H) Home       - Go back to home screen");
         System.out.println("================================");
         System.out.print("Enter your choice: ");
@@ -208,7 +209,9 @@ public class AccountingApp {
             case "B" :
                 balanceDisplay(account);
                 break;
-
+            case "S" :
+                categoryDisplay(account);
+                break;
             case "H" :
                 return ;
             default:
