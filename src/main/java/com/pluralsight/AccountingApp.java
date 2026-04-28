@@ -50,6 +50,7 @@ public class AccountingApp {
                    case "L" :
                        LocalDateTime now = LocalDateTime.now();
                        System.out.println("End the program: " + now.format(dateFormatted) + " " +  now.format(timeFormatted));
+                       logo2();
                        runTheProgram = false;
                        break;
                    default:
@@ -410,6 +411,33 @@ public class AccountingApp {
            """;
         System.out.println(logo);
     }
+
+    public static void logo2() {
+        System.out.println("S T E E L  C I T Y");
+        System.out.println("-------------------");
+        System.out.println("THANK YOU FOR VISITING US TODAY!!!");
+        System.out.println("-------------------");
+
+        String logo2 = """
+            .                                            .
+                    .                      .              .           .
+                            _    .                  .               _
+                        _  | |          _                      _   | |
+                       | | | |      _  | |            _       | |  | |  _
+                     _ | | | |     | | | |      _    | |    _ | |  | | | |
+                    | || |_| |_____| |_| |____ | |___| |___| |_| |__| |_| |
+                    | ||      STEEL CITY BANK  |                       | |
+                    | ||_______________________|_______________________| |
+                   /  \\_________________________________________________/  \\
+                  /_________________________________________________________\\
+           """;
+        System.out.println(logo2);
+
+
+    }
+
+
+
 
 
 }
