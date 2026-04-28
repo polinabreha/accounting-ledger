@@ -45,7 +45,7 @@ public class AccountingApp {
                         payment(input, account);
                         break;
                    case "V" :
-                       ledgerScreen(input, account);
+                       accountStatementScreen(input, account);
                        break;
                    case "L" :
                        LocalDateTime now = LocalDateTime.now();
@@ -134,8 +134,8 @@ public class AccountingApp {
         }
     }
 
-    public static void ledgerScreen(Scanner input, ArrayList<Transactions> account) throws IOException {
-        System.out.println("========== LEDGER ==========");
+    public static void accountStatementScreen(Scanner input, ArrayList<Transactions> account) throws IOException {
+        System.out.println("========== View Account Statement ==========");
         System.out.println("A) All        - Display all entries");
         System.out.println("D) Deposits   - Display only deposits");
         System.out.println("P) Payments   - Display only payments");
