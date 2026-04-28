@@ -90,7 +90,7 @@ public class AccountingApp {
                 amount = input.nextDouble();
                 input.nextLine();
             }
-            System.out.println("Enter please the Category(Income) : ");
+            System.out.print("Enter please the Category(Income) : ");
             String category = input.nextLine();
 
 
@@ -123,12 +123,13 @@ public class AccountingApp {
             input.nextLine();
 
             System.out.println("Enter please the Category : ");
-            System.out.println("1. Essentials (Rent / Mortgage, Utilities  (electricity, water, gas), Transportation )");
-            System.out.println("2. Education (Courses,Books,Subscriptions (learning platforms) )");
-            System.out.println("4. Food (grocery shopping, eating out)");
-            System.out.println("5. Health (medical bills,pharmacy, gym)");
-            System.out.println("6. Entertainment (Movies, Games, Streaming)" );
-            System.out.println("7. Other");
+            System.out.println("Essentials (Rent / Mortgage, Utilities  (electricity, water, gas), Transportation )");
+            System.out.println("Education (Courses,Books,Subscriptions (learning platforms) )");
+            System.out.println("Food (grocery shopping, eating out)");
+            System.out.println("Health (medical bills,pharmacy, gym)");
+            System.out.println("Entertainment (Movies, Games, Streaming)" );
+            System.out.println("Other");
+            System.out.print("Enter the choice : ");
             String category = input.nextLine();
 
             if (amount > 0) {
@@ -438,25 +439,18 @@ public class AccountingApp {
                 incomeTotal += t.getAmount();
             }
         }
-
-        System.out.println("Food Total : " + foodTotal);
-        System.out.println("Essential Total : " + essentialsTotal);
-        System.out.println("Education Total : " + educationTotal);
-        System.out.println("Health Total : " + healthTotal);
-        System.out.println("Entertainment Total : " + entertainmentTotal);
-        System.out.println("OtherTotal : " + otherTotal);
-        System.out.println("Income Total : " + incomeTotal);
+        System.out.println("===== SPENDING BY CATEGORY =====");
+        System.out.println("Food Total :$ " + foodTotal);
+        System.out.println("Essential Total :$ " + essentialsTotal);
+        System.out.println("Education Total :$ " + educationTotal);
+        System.out.println("Health Total :$ " + healthTotal);
+        System.out.println("Entertainment Total :$ " + entertainmentTotal);
+        System.out.println("OtherTotal :$ " + otherTotal);
+        System.out.println("Income Total :$d " + incomeTotal);
+        System.out.println("=================================");
 
 
     }
-
-
-
-
-
-
-
-
 
 
     public static void logo(){
