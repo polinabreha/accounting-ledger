@@ -58,7 +58,7 @@ public class AccountingApp {
        }
 
     }
-    public static void helper(Transactions t) throws Exception{
+    public static void bufferedwriter(Transactions t) throws Exception{
         BufferedWriter bw = new BufferedWriter(new FileWriter("src/main/resources/transactions.csv", true));
         bw.write(t.toString() + "\n");
         bw.close();
@@ -71,11 +71,14 @@ public class AccountingApp {
             System.out.print("Enter the information about the deposit transaction " +
                     "\n(Example: Paycheck, Invoice 1003 paid, Bonus payment): ");
             String depositInfo = input.nextLine();
+
             System.out.print("Enter please the Vendor / Source : ");
             String source = input.nextLine();
+
             System.out.print("Enter the amount to be deposited: $ ");
             double amount = input.nextDouble();
             input.nextLine();
+
             if (amount < 0) {
                 System.out.print("Please enter a positive value: $ ");
                 amount = input.nextDouble();
@@ -88,7 +91,7 @@ public class AccountingApp {
                     source,
                     amount
             );
-            helper(t);
+            bufferedwriter(t);
             account.add(t);
         }catch (Exception e) {
             System.out.println(e.getMessage());
@@ -100,11 +103,14 @@ public class AccountingApp {
             LocalDateTime depositTime = LocalDateTime.now();
             System.out.print("Enter the information about your payment: ");
             String payInfo = input.nextLine();
+
             System.out.print("Enter please the Vendor / Source : ");
             String source = input.nextLine();
+
             System.out.print("Enter the amount that you payed : $ ");
             double amount = input.nextDouble();
             input.nextLine();
+
             if (amount > 0) {
                 amount = amount * -1;
             }
@@ -116,7 +122,7 @@ public class AccountingApp {
                     amount
             );
 
-            helper(t);
+            bufferedwriter(t);
             account.add(t);
 
         }catch (Exception e) {
@@ -261,13 +267,6 @@ public class AccountingApp {
             System.out.println("Invalid choice, please try again.");
         }
     }
-
-
-
-
-
-
-
 
 
 }
