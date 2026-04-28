@@ -90,12 +90,13 @@ public class AccountingApp {
                 amount = input.nextDouble();
                 input.nextLine();
             }
-            System.out.print("Enter please the Category : ");
+            System.out.println("Enter please the Category : ");
             System.out.println("1. Salary");
             System.out.println("2. Freelance");
             System.out.println("3. Gift");
             System.out.println("4. Refund");
             System.out.println("5. Other Income");
+            System.out.print("Enter your choice: ");
             String category = "";
             int choice = input.nextInt();
             input.nextLine();
