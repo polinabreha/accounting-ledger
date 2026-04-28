@@ -31,6 +31,7 @@ public class AccountingApp {
                System.out.println("D) Add Deposit");
                System.out.println("P) Make Payment (Debit)");
                System.out.println("L) Ledger");
+               System.out.println("C) Custom Search");
                System.out.println("X) Exit");
                System.out.print("Enter the letter of the choice: ");
                String choice = input.nextLine().toUpperCase();
@@ -44,6 +45,9 @@ public class AccountingApp {
                         break;
                    case "L" :
                        ledgerScreen(input, account);
+                       break;
+                   case "C" :
+                       customSearch(input, account);
                        break;
                    case "X" :
                        runTheProgram = false;
@@ -266,6 +270,90 @@ public class AccountingApp {
         }catch (Exception e) {
             System.out.println("Invalid choice, please try again.");
         }
+    }
+
+    public static void customSearch (Scanner input, ArrayList<Transactions> account) {
+        System.out.print("Enter Start Date: ");
+        String startDate = input.nextLine();
+        System.out.print("Enter End Date: ");
+        String endDate = input.nextLine();
+        System.out.print("Enter Description: ");
+        String description = input.nextLine();
+        System.out.print("Enter Vendor Name: ");
+        String vendor = input.nextLine();
+        System.out.print("Enter Amount: ");
+        String amount = input.nextLine();
+
+        LocalDate startDateParsed = null;
+        LocalDate endDateParsed = null;
+        double amountParsed = 0;
+        boolean found = false;
+
+        if (startDate.isEmpty()){
+            startDate = null;
+        }else{
+           startDateParsed = LocalDate.parse(startDate);
+        }
+        if (endDate.isEmpty() ){
+            endDate = null;
+        } else{
+            endDateParsed = LocalDate.parse(endDate);
+        }
+        if (description.isEmpty() ){
+            description = null;
+        }
+        if (vendor.isEmpty() ){
+            vendor = null;
+        }
+        if (amount.isEmpty() ) {
+            amount = null;
+        } else {
+           amountParsed = Double.parseDouble(amount);
+        }
+
+       for (Transactions t : account) {
+           boolean match = true;
+           if (startDateParsed != null) {
+              LocalDate transactionDate = LocalDate.parse(t.getDate());
+              if (transactionDate.isBefore(startDateParsed)){
+                  match = false;
+              }
+           }
+           if (endDateParsed != null) {
+               LocalDate transactionDate = LocalDate.parse(t.getDate());
+               if (transactionDate.isAfter(endDateParsed)){
+                   match = false;
+               }
+           }
+           if (description != null) {
+               if (!description.equalsIgnoreCase(t.getDescription())) {
+                   match = false;
+               }
+           }
+           if (vendor != null) {
+               if (!vendor.equalsIgnoreCase(t.getVendor())) {
+                   match = false;
+               }
+           }
+           if (amount != null) {
+               if (amountParsed != (t.getAmount())) {
+                   match = false;
+               }
+           }
+           if (match) {
+               System.out.println(t.toString());
+               found = true;
+           }
+       }
+       if (!found) {
+           System.out.println("No transactions found");
+       }
+
+
+
+
+
+
     }
 
 
