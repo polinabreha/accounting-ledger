@@ -140,7 +140,7 @@ public class AccountingApp {
         System.out.println("D) Deposits   - Display only deposits");
         System.out.println("P) Payments   - Display only payments");
         System.out.println("R) Reports    - View reports");
-        System.out.println("C) Custom Search");
+        System.out.println("C) Custom Search - search transactions");
         System.out.println("B) Balance    -  See the balance  ");
         System.out.println("H) Home       - Go back to home screen");
         System.out.println("================================");
@@ -367,9 +367,8 @@ public class AccountingApp {
     }
 
     public static void balanceDisplay ( ArrayList<Transactions> account) {
-        double total = 0.0;
         double deposit = 0.0;
-        double payments = 0;
+        double payments = 0.0;
 
         for (Transactions t : account) {
             if (t.getAmount() > 0) {
@@ -380,7 +379,7 @@ public class AccountingApp {
             }
 
         }
-        total = deposit + payments;
+        double total = deposit + payments;
         System.out.println("Total Deposits : " + deposit);
         System.out.println("Total Withdrawals : " + payments);
         System.out.println("Current Balance: " + total);
