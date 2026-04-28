@@ -16,7 +16,7 @@ public class AccountingApp {
         Scanner input = new Scanner(System.in);
 
         System.out.println("-------------------Welcome at the \"Steel City\" Bank-------------------");
-        logo(args);
+        logo();
         homeScreen(input);
 
     }
@@ -25,13 +25,14 @@ public class AccountingApp {
         ArrayList<Transactions> account = new ArrayList<>();
         boolean runTheProgram = true;
        try {
+           LocalDateTime dateTime = LocalDateTime.now();
+           System.out.println("Start the program: " +dateTime.format(dateFormatted) + " " + dateTime.format(timeFormatted));
            while (runTheProgram) {
 
                System.out.println("Choose of the following options:");
                System.out.println("D) Deposit Funds");
                System.out.println("P) Withdraw / Pay");
                System.out.println("V) View Account Statement");
-               System.out.println("C) Custom Search");
                System.out.println("L) Log Out");
                System.out.print("Enter the letter of the choice: ");
                String choice = input.nextLine().toUpperCase();
@@ -46,10 +47,9 @@ public class AccountingApp {
                    case "V" :
                        ledgerScreen(input, account);
                        break;
-                   case "C" :
-                       customSearch(input, account);
-                       break;
                    case "L" :
+                       LocalDateTime now = LocalDateTime.now();
+                       System.out.println("End the program: " + now.format(dateFormatted) + " " +  now.format(timeFormatted));
                        runTheProgram = false;
                        break;
                    default:
@@ -140,6 +140,7 @@ public class AccountingApp {
         System.out.println("D) Deposits   - Display only deposits");
         System.out.println("P) Payments   - Display only payments");
         System.out.println("R) Reports    - View reports");
+        System.out.println("C) Custom Search");
         System.out.println("B) Balance    -  See the balance  ");
         System.out.println("H) Home       - Go back to home screen");
         System.out.println("================================");
@@ -162,7 +163,6 @@ public class AccountingApp {
 
         switch (choice) {
             case "A" :
-
                 for (Transactions t : account) {
                     System.out.println(t.toString());
                 }
@@ -185,7 +185,9 @@ public class AccountingApp {
             case "R" :
                 reports(input, account);
                 break;
-
+            case "C" :
+                customSearch(input, account);
+                break;
             case "B" :
                 balanceDisplay(account);
                 break;
@@ -201,6 +203,7 @@ public class AccountingApp {
     public static void reports (Scanner input, ArrayList<Transactions> account) {
         try {
             while (true) {
+                boolean found = false;
                 System.out.println("========== REPORTS ==========");
                 System.out.println("1) Month To Date");
                 System.out.println("2) Previous Month");
@@ -220,6 +223,7 @@ public class AccountingApp {
                             LocalDate transactionDate = LocalDate.parse(t.getDate());
                             if (transactionDate.getMonth() == today.getMonth() && transactionDate.getYear() == today.getYear()) {
                                 System.out.println(t.toString());
+                                found = true;
                             }
 
                         }
@@ -231,6 +235,7 @@ public class AccountingApp {
                             LocalDate transactionDate = LocalDate.parse(t.getDate());
                             if (previousMonth.getMonth() == transactionDate.getMonth() && previousMonth.getYear() == transactionDate.getYear()) {
                                 System.out.println(t.toString());
+                                found = true;
                             }
                         }
                         break;
@@ -241,6 +246,7 @@ public class AccountingApp {
                             LocalDate transactionDate = LocalDate.parse(t.getDate());
                             if (thisYear.getYear() == transactionDate.getYear()) {
                                 System.out.println(t.toString());
+                                found = true;
                             }
                         }
                         break;
@@ -251,6 +257,7 @@ public class AccountingApp {
                             LocalDate transactionDate = LocalDate.parse(t.getDate());
                             if (previousYear.getYear() == transactionDate.getYear()) {
                                 System.out.println(t.toString());
+                                found = true;
                             }
                         }
                         break;
@@ -260,6 +267,7 @@ public class AccountingApp {
                         for (Transactions t : account) {
                             if (vendor.equalsIgnoreCase(t.getVendor())) {
                                 System.out.println(t.toString());
+                                found = true;
                             }
                         }
                         break;
@@ -269,6 +277,9 @@ public class AccountingApp {
 
                     default:
                         System.out.println("Invalid choice, please try again.");
+                }
+                if (!found) {
+                    System.out.println("No transactions found");
                 }
             }
 
@@ -375,7 +386,7 @@ public class AccountingApp {
         System.out.println("Current Balance: " + total);
 
     }
-    public static void logo(String[] args){
+    public static void logo(){
         String logo = """
                 ============================================================
                    S T E E L  C I T Y  B A N K | Financial Systems v1.0
