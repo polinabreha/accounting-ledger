@@ -17,8 +17,6 @@ public class AccountingApp {
 
         System.out.println("-------------------Welcome at the \"Steel City\" Bank-------------------");
         logo(args);
-
-
         homeScreen(input);
 
     }
@@ -30,11 +28,11 @@ public class AccountingApp {
            while (runTheProgram) {
 
                System.out.println("Choose of the following options:");
-               System.out.println("D) Add Deposit");
-               System.out.println("P) Make Payment (Debit)");
-               System.out.println("L) Ledger");
+               System.out.println("D) Deposit Funds");
+               System.out.println("P) Withdraw / Pay");
+               System.out.println("V) View Account Statement");
                System.out.println("C) Custom Search");
-               System.out.println("X) Exit");
+               System.out.println("L) Log Out");
                System.out.print("Enter the letter of the choice: ");
                String choice = input.nextLine().toUpperCase();
 
@@ -45,13 +43,13 @@ public class AccountingApp {
                    case "P" :
                         payment(input, account);
                         break;
-                   case "L" :
+                   case "V" :
                        ledgerScreen(input, account);
                        break;
                    case "C" :
                        customSearch(input, account);
                        break;
-                   case "X" :
+                   case "L" :
                        runTheProgram = false;
                        break;
                    default:
@@ -372,9 +370,9 @@ public class AccountingApp {
 
         }
         total = deposit + payments;
-        System.out.println("Deposit : " + deposit);
-        System.out.println("Payment : " + payments);
-        System.out.println("Total Balance: " + total);
+        System.out.println("Total Deposits : " + deposit);
+        System.out.println("Total Withdrawals : " + payments);
+        System.out.println("Current Balance: " + total);
 
     }
     public static void logo(String[] args){
