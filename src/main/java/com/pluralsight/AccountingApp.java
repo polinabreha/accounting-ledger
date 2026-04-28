@@ -91,7 +91,7 @@ public class AccountingApp {
                 input.nextLine();
             }
             System.out.print("Enter please the Category : ");
-            System.out.println("1. Salary / Paycheck");
+            System.out.println("1. Salary");
             System.out.println("2. Freelance");
             System.out.println("3. Gift");
             System.out.println("4. Refund");
@@ -487,7 +487,19 @@ public class AccountingApp {
             if (t.getAmount() < 0 && t.getCategory().equalsIgnoreCase("Other")) {
                 otherTotal += t.getAmount();
             }
-            if (t.getAmount() > 0 && t.getCategory().equalsIgnoreCase("Income")) {
+            if (t.getAmount() > 0 && t.getCategory().equalsIgnoreCase("Salary")) {
+                incomeTotal += t.getAmount();
+            }
+            if (t.getAmount() > 0 && t.getCategory().equalsIgnoreCase("Freelance")) {
+                incomeTotal += t.getAmount();
+            }
+            if (t.getAmount() > 0 && t.getCategory().equalsIgnoreCase("Gift")) {
+                incomeTotal += t.getAmount();
+            }
+            if (t.getAmount() > 0 && t.getCategory().equalsIgnoreCase("Refund")) {
+                incomeTotal += t.getAmount();
+            }
+            if (t.getAmount() > 0 && t.getCategory().equalsIgnoreCase("Other Income")) {
                 incomeTotal += t.getAmount();
             }
         }
