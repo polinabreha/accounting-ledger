@@ -206,70 +206,73 @@ public class AccountingApp {
     }
 
     public static void accountStatementScreen(Scanner input, ArrayList<Transactions> account) throws IOException {
-        System.out.println("========== View Account Statement ==========");
-        System.out.println("A) All        - Display all entries");
-        System.out.println("D) Deposits   - Display only deposits");
-        System.out.println("P) Payments   - Display only payments");
-        System.out.println("R) Reports    - View reports");
-        System.out.println("C) Custom Search - search transactions");
-        System.out.println("B) Balance    -  See the balance  ");
-        System.out.println("S) Spending   - By category");
-        System.out.println("H) Home       - Go back to home screen");
-        System.out.println("================================");
-        System.out.print("Enter your choice: ");
-        String choice = input.nextLine().toUpperCase();
-        account.clear();
 
-        BufferedReader br = new BufferedReader(new FileReader("src/main/resources/transactions.csv"));
-        String line;
-        while ((line = br.readLine()) != null) {
-            if (line.trim().isEmpty()) continue;
-            if (line.startsWith("date")) continue;
-            String[] data = line.split("\\|");
-            Transactions t = new Transactions(data[0], data[1], data[2],data[3], Double.parseDouble(data[4]) ,data[5]);
-            account.add(t);
+        while (true) {
+            System.out.println("========== View Account Statement ==========");
+            System.out.println("A) All        - Display all entries");
+            System.out.println("D) Deposits   - Display only deposits");
+            System.out.println("P) Payments   - Display only payments");
+            System.out.println("R) Reports    - View reports");
+            System.out.println("C) Custom Search - search transactions");
+            System.out.println("B) Balance    -  See the balance  ");
+            System.out.println("S) Spending   - By category");
+            System.out.println("H) Home       - Go back to home screen");
+            System.out.println("================================");
+            System.out.print("Enter your choice: ");
+            String choice = input.nextLine().toUpperCase();
+            account.clear();
 
-        }
-        br.close();
-        Collections.reverse(account);
+            BufferedReader br = new BufferedReader(new FileReader("src/main/resources/transactions.csv"));
+            String line;
+            while ((line = br.readLine()) != null) {
+                if (line.trim().isEmpty()) continue;
+                if (line.startsWith("date")) continue;
+                String[] data = line.split("\\|");
+                Transactions t = new Transactions(data[0], data[1], data[2], data[3], Double.parseDouble(data[4]), data[5]);
+                account.add(t);
 
-        switch (choice) {
-            case "A" :
-                for (Transactions t : account) {
-                    System.out.println(t.toString());
-                }
-                break;
+            }
+            br.close();
+            Collections.reverse(account);
 
-            case "D" :
-                for (Transactions t : account) {
-                    if (t.getAmount() > 0) {
+            switch (choice) {
+                case "A":
+                    for (Transactions t : account) {
                         System.out.println(t.toString());
                     }
-                }
-                break;
-            case "P" :
-                for (Transactions t : account) {
-                    if (t.getAmount() < 0) {
-                        System.out.println(t.toString());
+                    break;
+
+                case "D":
+                    for (Transactions t : account) {
+                        if (t.getAmount() > 0) {
+                            System.out.println(t.toString());
+                        }
                     }
-                }
-                break;
-            case "R" :
-                reports(input, account);
-                break;
-            case "C" :
-                customSearch(input, account);
-                break;
-            case "B" :
-                balanceDisplay(account);
-                break;
-            case "S" :
-                categoryDisplay(account);
-                break;
-            case "H" :
-                return ;
-            default:
-                System.out.println("Invalid choice");
+                    break;
+                case "P":
+                    for (Transactions t : account) {
+                        if (t.getAmount() < 0) {
+                            System.out.println(t.toString());
+                        }
+                    }
+                    break;
+                case "R":
+                    reports(input, account);
+                    break;
+                case "C":
+                    customSearch(input, account);
+                    break;
+                case "B":
+                    balanceDisplay(account);
+                    break;
+                case "S":
+                    categoryDisplay(account);
+                    break;
+                case "H":
+                    return;
+                default:
+                    System.out.println("Invalid choice");
+            }
         }
 
     }
@@ -454,9 +457,9 @@ public class AccountingApp {
 
         }
         double total = deposit + payments;
-        System.out.println("Total Deposits : " + deposit);
-        System.out.println("Total Withdrawals : " + payments);
-        System.out.println("Current Balance: " + total);
+        System.out.printf("Total Deposits : $.%2f%n" , deposit);
+        System.out.printf("Total Withdrawals $.%2f%n: " , payments);
+        System.out.printf("Current Balance: $.%2f%n" , total);
 
     }
 
