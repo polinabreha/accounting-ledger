@@ -140,6 +140,7 @@ public class AccountingApp {
         System.out.println("D) Deposits   - Display only deposits");
         System.out.println("P) Payments   - Display only payments");
         System.out.println("R) Reports    - View reports");
+        System.out.println("B) Balance    -  See the balance  ");
         System.out.println("H) Home       - Go back to home screen");
         System.out.println("================================");
         System.out.print("Enter your choice: ");
@@ -183,6 +184,10 @@ public class AccountingApp {
                 break;
             case "R" :
                 reports(input, account);
+                break;
+
+            case "B" :
+                balanceDisplay(account);
                 break;
 
             case "H" :
@@ -348,11 +353,26 @@ public class AccountingApp {
        if (!found) {
            System.out.println("No transactions found");
        }
+    }
 
+    public static void balanceDisplay ( ArrayList<Transactions> account) {
+        double total = 0.0;
+        double deposit = 0.0;
+        double payments = 0;
 
+        for (Transactions t : account) {
+            if (t.getAmount() > 0) {
+                deposit += t.getAmount();
+            }
+            if (t.getAmount() < 0) {
+                payments += t.getAmount();
+            }
 
-
-
+        }
+        total = deposit + payments;
+        System.out.println("Deposit : " + deposit);
+        System.out.println("Payment : " + payments);
+        System.out.println("Total Balance: " + total);
 
     }
 
