@@ -84,17 +84,23 @@ public class AccountingApp {
             double amount = input.nextDouble();
             input.nextLine();
 
+
             if (amount < 0) {
                 System.out.print("Please enter a positive value: $ ");
                 amount = input.nextDouble();
                 input.nextLine();
             }
+            System.out.println("Enter please the Category(Income) : ");
+            String category = input.nextLine();
+
+
             Transactions t = new Transactions(
                     depositTime.format(dateFormatted),
                     depositTime.format(timeFormatted),
                     depositInfo,
                     source,
-                    amount
+                    amount,
+                    category
             );
             bufferedwriter(t);
             account.add(t);
@@ -116,6 +122,15 @@ public class AccountingApp {
             double amount = input.nextDouble();
             input.nextLine();
 
+            System.out.println("Enter please the Category : ");
+            System.out.println("1. Essentials (Rent / Mortgage, Utilities  (electricity, water, gas), Transportation )");
+            System.out.println("2. Education (Courses,Books,Subscriptions (learning platforms) )");
+            System.out.println("4. Food (grocery shopping, eating out)");
+            System.out.println("5. Health (medical bills,pharmacy, gym)");
+            System.out.println("6. Entertainment (Movies, Games, Streaming)" );
+            System.out.println("7. Other");
+            String category = input.nextLine();
+
             if (amount > 0) {
                 amount = amount * -1;
             }
@@ -124,7 +139,8 @@ public class AccountingApp {
                     depositTime.format(timeFormatted),
                     payInfo,
                     source,
-                    amount
+                    amount,
+                    category
             );
 
             bufferedwriter(t);
@@ -155,7 +171,7 @@ public class AccountingApp {
             if (line.trim().isEmpty()) continue;
             if (line.startsWith("date")) continue;
             String[] data = line.split("\\|");
-            Transactions t = new Transactions(data[0], data[1], data[2],data[3], Double.parseDouble(data[4]) );
+            Transactions t = new Transactions(data[0], data[1], data[2],data[3], Double.parseDouble(data[4]) ,data[5]);
             account.add(t);
 
         }
@@ -386,6 +402,60 @@ public class AccountingApp {
         System.out.println("Current Balance: " + total);
 
     }
+
+    public static void categoryDisplay ( ArrayList<Transactions> account) {
+        double foodTotal = 0.0;
+        double essentialsTotal = 0.0;
+        double educationTotal = 0.0;
+        double healthTotal = 0.0;
+        double entertainmentTotal = 0.0;
+        double otherTotal = 0.0;
+        double incomeTotal = 0.0;
+
+        for (Transactions t : account) {
+            if (t.getAmount() < 0 && t.getCategory().equalsIgnoreCase("Food")) {
+                foodTotal += t.getAmount();
+            }
+            if (t.getAmount() < 0 && t.getCategory().equalsIgnoreCase("Essentials")) {
+                essentialsTotal += t.getAmount();
+            }
+            if (t.getAmount() < 0 && t.getCategory().equalsIgnoreCase("Education")) {
+                educationTotal += t.getAmount();
+            }
+            if (t.getAmount() < 0 && t.getCategory().equalsIgnoreCase("Health")) {
+                healthTotal += t.getAmount();
+            }
+            if (t.getAmount() < 0 && t.getCategory().equalsIgnoreCase("Entertainment")) {
+                entertainmentTotal += t.getAmount();
+            }
+            if (t.getAmount() < 0 && t.getCategory().equalsIgnoreCase("Other")) {
+                otherTotal += t.getAmount();
+            }
+            if (t.getAmount() > 0 && t.getCategory().equalsIgnoreCase("Income")) {
+                incomeTotal += t.getAmount();
+            }
+        }
+
+        System.out.println("Food Total : " + foodTotal);
+        System.out.println("Essential Total : " + essentialsTotal);
+        System.out.println("Education Total : " + educationTotal);
+        System.out.println("Health Total : " + healthTotal);
+        System.out.println("Entertainment Total : " + entertainmentTotal);
+        System.out.println("OtherTotal : " + otherTotal);
+        System.out.println("Income Total : " + incomeTotal);
+
+
+    }
+
+
+
+
+
+
+
+
+
+
     public static void logo(){
         String logo = """
                 ============================================================
@@ -413,10 +483,10 @@ public class AccountingApp {
     }
 
     public static void logo2() {
-        System.out.println("S T E E L  C I T Y");
-        System.out.println("-------------------");
-        System.out.println("THANK YOU FOR VISITING US TODAY!!!");
-        System.out.println("-------------------");
+        System.out.println("-----------------------S T E E L  C I T Y-----------------------");
+        System.out.println("----------------------------------------------------------------");
+        System.out.println("--------------THANK YOU FOR VISITING US TODAY!!!----------------");
+        System.out.println("----------------------------------------------------------------");
 
         String logo2 = """
             .                                            .
