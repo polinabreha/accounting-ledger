@@ -15,7 +15,9 @@ public class AccountingApp {
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
 
-        System.out.println("-----Welcome to the Accounting Application-----");
+        System.out.println("-------------------Welcome at the \"Steel City\" Bank-------------------");
+        logo(args);
+
 
         homeScreen(input);
 
@@ -374,6 +376,31 @@ public class AccountingApp {
         System.out.println("Payment : " + payments);
         System.out.println("Total Balance: " + total);
 
+    }
+    public static void logo(String[] args){
+        String logo = """
+                ============================================================
+                   S T E E L  C I T Y  B A N K | Financial Systems v1.0
+                ============================================================
+           
+                                |$ $ $ $ $ $ $ $ $ $ $ $ $ $ $ $ $ $|
+                                |           Your Reliable           |
+                                |           B A N K $$$$            |
+                                |___________________________________|
+                                |   |                           |   |
+                                |   |          _______          |   |
+                                |   |        /    |    \\        |   |
+                                |   |       |     |     |       |   |
+                                |   |    ---|-----$-----|---    |   |
+                                |   |       |     |     |       |   |
+                                |   |        \\____|_____/       |   |
+                                |   |                           |   |
+                                |___|___________________________|___|
+               ======================================================================
+          
+               ======================================================================
+           """;
+        System.out.println(logo);
     }
 
 
