@@ -205,75 +205,82 @@ public class AccountingApp {
         }
     }
 
-    public static void accountStatementScreen(Scanner input, ArrayList<Transactions> account) throws IOException {
+    public static void accountStatementScreen(Scanner input, ArrayList<Transactions> account) {
+     try {
+         while (true) {
+             System.out.println("========== View Account Statement ==========");
+             System.out.println("A) All        - Display all entries");
+             System.out.println("D) Deposits   - Display only deposits");
+             System.out.println("P) Payments   - Display only payments");
+             System.out.println("R) Reports    - View reports");
+             System.out.println("C) Custom Search - search transactions");
+             System.out.println("B) Balance    -  See the balance  ");
+             System.out.println("S) Spending   - By category");
+             System.out.println("Q) Spending chart - display spending bar");
+             System.out.println("H) Home       - Go back to home screen");
+             System.out.println("================================");
+             System.out.print("Enter your choice: ");
+             String choice = input.nextLine().toUpperCase();
+             account.clear();
 
-        while (true) {
-            System.out.println("========== View Account Statement ==========");
-            System.out.println("A) All        - Display all entries");
-            System.out.println("D) Deposits   - Display only deposits");
-            System.out.println("P) Payments   - Display only payments");
-            System.out.println("R) Reports    - View reports");
-            System.out.println("C) Custom Search - search transactions");
-            System.out.println("B) Balance    -  See the balance  ");
-            System.out.println("S) Spending   - By category");
-            System.out.println("H) Home       - Go back to home screen");
-            System.out.println("================================");
-            System.out.print("Enter your choice: ");
-            String choice = input.nextLine().toUpperCase();
-            account.clear();
+             BufferedReader br = new BufferedReader(new FileReader("src/main/resources/transactions.csv"));
+             String line;
+             while ((line = br.readLine()) != null) {
+                 if (line.trim().isEmpty()) continue;
+                 if (line.startsWith("date")) continue;
+                 String[] data = line.split("\\|");
+                 Transactions t = new Transactions(data[0], data[1], data[2], data[3], Double.parseDouble(data[4]), data[5]);
+                 account.add(t);
 
-            BufferedReader br = new BufferedReader(new FileReader("src/main/resources/transactions.csv"));
-            String line;
-            while ((line = br.readLine()) != null) {
-                if (line.trim().isEmpty()) continue;
-                if (line.startsWith("date")) continue;
-                String[] data = line.split("\\|");
-                Transactions t = new Transactions(data[0], data[1], data[2], data[3], Double.parseDouble(data[4]), data[5]);
-                account.add(t);
+             }
+             br.close();
+             Collections.reverse(account);
 
-            }
-            br.close();
-            Collections.reverse(account);
+             switch (choice) {
+                 case "A":
+                     for (Transactions t : account) {
+                         System.out.println(t.toString());
+                     }
+                     break;
 
-            switch (choice) {
-                case "A":
-                    for (Transactions t : account) {
-                        System.out.println(t.toString());
-                    }
-                    break;
-
-                case "D":
-                    for (Transactions t : account) {
-                        if (t.getAmount() > 0) {
-                            System.out.println(t.toString());
-                        }
-                    }
-                    break;
-                case "P":
-                    for (Transactions t : account) {
-                        if (t.getAmount() < 0) {
-                            System.out.println(t.toString());
-                        }
-                    }
-                    break;
-                case "R":
-                    reports(input, account);
-                    break;
-                case "C":
-                    customSearch(input, account);
-                    break;
-                case "B":
-                    balanceDisplay(account);
-                    break;
-                case "S":
-                    categoryDisplay(account);
-                    break;
-                case "H":
-                    return;
-                default:
-                    System.out.println("Invalid choice");
-            }
-        }
+                 case "D":
+                     for (Transactions t : account) {
+                         if (t.getAmount() > 0) {
+                             System.out.println(t.toString());
+                         }
+                     }
+                     break;
+                 case "P":
+                     for (Transactions t : account) {
+                         if (t.getAmount() < 0) {
+                             System.out.println(t.toString());
+                         }
+                     }
+                     break;
+                 case "R":
+                     reports(input, account);
+                     break;
+                 case "C":
+                     customSearch(input, account);
+                     break;
+                 case "B":
+                     balanceDisplay(account);
+                     break;
+                 case "S":
+                     categoryDisplay(account);
+                     break;
+                 case "Q":
+                     spendingChart(account);
+                     break;
+                 case "H":
+                     return;
+                 default:
+                     System.out.println("Invalid choice");
+             }
+         }
+     }catch (IOException e) {
+         System.out.println("Invalid choice");
+     }
 
     }
 
@@ -366,81 +373,85 @@ public class AccountingApp {
     }
 
     public static void customSearch (Scanner input, ArrayList<Transactions> account) {
-        System.out.print("Enter Start Date: ");
-        String startDate = input.nextLine();
-        System.out.print("Enter End Date: ");
-        String endDate = input.nextLine();
-        System.out.print("Enter Description: ");
-        String description = input.nextLine();
-        System.out.print("Enter Vendor Name: ");
-        String vendor = input.nextLine();
-        System.out.print("Enter Amount: ");
-        String amount = input.nextLine();
+        try {
+            System.out.print("Enter Start Date: ");
+            String startDate = input.nextLine();
+            System.out.print("Enter End Date: ");
+            String endDate = input.nextLine();
+            System.out.print("Enter Description: ");
+            String description = input.nextLine();
+            System.out.print("Enter Vendor Name: ");
+            String vendor = input.nextLine();
+            System.out.print("Enter Amount: ");
+            String amount = input.nextLine();
 
-        LocalDate startDateParsed = null;
-        LocalDate endDateParsed = null;
-        double amountParsed = 0;
-        boolean found = false;
+            LocalDate startDateParsed = null;
+            LocalDate endDateParsed = null;
+            double amountParsed = 0;
+            boolean found = false;
 
-        if (startDate.isEmpty()){
-            startDate = null;
-        }else{
-           startDateParsed = LocalDate.parse(startDate);
-        }
-        if (endDate.isEmpty() ){
-            endDate = null;
-        } else{
-            endDateParsed = LocalDate.parse(endDate);
-        }
-        if (description.isEmpty() ){
-            description = null;
-        }
-        if (vendor.isEmpty() ){
-            vendor = null;
-        }
-        if (amount.isEmpty() ) {
-            amount = null;
-        } else {
-           amountParsed = Double.parseDouble(amount);
-        }
+            if (startDate.isEmpty()) {
+                startDate = null;
+            } else {
+                startDateParsed = LocalDate.parse(startDate);
+            }
+            if (endDate.isEmpty()) {
+                endDate = null;
+            } else {
+                endDateParsed = LocalDate.parse(endDate);
+            }
+            if (description.isEmpty()) {
+                description = null;
+            }
+            if (vendor.isEmpty()) {
+                vendor = null;
+            }
+            if (amount.isEmpty()) {
+                amount = null;
+            } else {
+                amountParsed = Double.parseDouble(amount);
+            }
 
-       for (Transactions t : account) {
-           boolean match = true;
-           if (startDateParsed != null) {
-              LocalDate transactionDate = LocalDate.parse(t.getDate());
-              if (transactionDate.isBefore(startDateParsed)){
-                  match = false;
-              }
-           }
-           if (endDateParsed != null) {
-               LocalDate transactionDate = LocalDate.parse(t.getDate());
-               if (transactionDate.isAfter(endDateParsed)){
-                   match = false;
-               }
-           }
-           if (description != null) {
-               if (!description.equalsIgnoreCase(t.getDescription())) {
-                   match = false;
-               }
-           }
-           if (vendor != null) {
-               if (!vendor.equalsIgnoreCase(t.getVendor())) {
-                   match = false;
-               }
-           }
-           if (amount != null) {
-               if (amountParsed != (t.getAmount())) {
-                   match = false;
-               }
-           }
-           if (match) {
-               System.out.println(t.toString());
-               found = true;
-           }
-       }
-       if (!found) {
-           System.out.println("No transactions found");
-       }
+            for (Transactions t : account) {
+                boolean match = true;
+                if (startDateParsed != null) {
+                    LocalDate transactionDate = LocalDate.parse(t.getDate());
+                    if (transactionDate.isBefore(startDateParsed)) {
+                        match = false;
+                    }
+                }
+                if (endDateParsed != null) {
+                    LocalDate transactionDate = LocalDate.parse(t.getDate());
+                    if (transactionDate.isAfter(endDateParsed)) {
+                        match = false;
+                    }
+                }
+                if (description != null) {
+                    if (!description.equalsIgnoreCase(t.getDescription())) {
+                        match = false;
+                    }
+                }
+                if (vendor != null) {
+                    if (!vendor.equalsIgnoreCase(t.getVendor())) {
+                        match = false;
+                    }
+                }
+                if (amount != null) {
+                    if (amountParsed != (t.getAmount())) {
+                        match = false;
+                    }
+                }
+                if (match) {
+                    System.out.println(t.toString());
+                    found = true;
+                }
+            }
+            if (!found) {
+                System.out.println("No transactions found");
+            }
+        }catch (Exception e) {
+            System.out.println("Invalid choice, please try again.");
+        }
     }
 
     public static void balanceDisplay ( ArrayList<Transactions> account) {
@@ -457,9 +468,11 @@ public class AccountingApp {
 
         }
         double total = deposit + payments;
-        System.out.printf("Total Deposits : $.%2f%n" , deposit);
-        System.out.printf("Total Withdrawals $.%2f%n: " , payments);
-        System.out.printf("Current Balance: $.%2f%n" , total);
+        System.out.println("===== BALANCE =====");
+        System.out.printf("Total Deposits : $%,.2f%n" , deposit);
+        System.out.printf("Total Withdrawals : $%,.2f%n", payments);
+        System.out.printf("Current Balance: $%,.2f%n" , total);
+        System.out.println("===================");
 
     }
 
@@ -508,14 +521,61 @@ public class AccountingApp {
             }
         }
         System.out.println("===== SPENDING BY CATEGORY =====");
-        System.out.println("1. Food Total :$ " + foodTotal);
-        System.out.println("2. Essential Total :$ " + essentialsTotal);
-        System.out.println("3. Education Total :$ " + educationTotal);
-        System.out.println("4. Health Total :$ " + healthTotal);
-        System.out.println("5. Entertainment Total :$ " + entertainmentTotal);
-        System.out.println("6. OtherTotal :$ " + otherTotal);
-        System.out.println("7. Income Total :$ " + incomeTotal);
+        System.out.printf(" 1. Food Total :$%,.2f%n " , foodTotal);
+        System.out.printf("2. Essential Total :$%,.2f%n " , essentialsTotal);
+        System.out.printf("3. Education Total :$%,.2f%n " , educationTotal);
+        System.out.printf("4. Health Total :$%,.2f%n " , healthTotal);
+        System.out.printf("5. Entertainment Total :$%,.2f%n " , entertainmentTotal);
+        System.out.printf("6. OtherTotal :$%,.2f%n " , otherTotal);
+        System.out.printf("7. Income Total :$%,.2f%n " , incomeTotal);
         System.out.println("=================================");
+
+
+    }
+
+    public static void spendingChart ( ArrayList<Transactions> account) {
+        String foodBar = "";
+        String essentialsBar = "";
+        String educationBar = "";
+        String healthBar = "";
+        String entertainmentBar = "";
+        String otherBar = "";
+        for (Transactions t : account) {
+            if (t.getCategory().equalsIgnoreCase("Food")) {
+                foodBar += "#";
+            }
+            if (t.getCategory().equalsIgnoreCase("Essentials")) {
+                essentialsBar += "#";
+            }
+            if (t.getCategory().equalsIgnoreCase("Education")) {
+                educationBar += "#";
+            }
+            if (t.getCategory().equalsIgnoreCase("Health")) {
+                healthBar += "#";
+            }
+            if (t.getCategory().equalsIgnoreCase("Entertainment")) {
+                entertainmentBar += "#";
+            }
+            if (t.getCategory().equalsIgnoreCase("Other")) {
+                otherBar += "#";
+            }
+        }
+        System.out.println("===== SPENDING CHART =====");
+        System.out.println("Food: " + foodBar );
+        System.out.println("Essentials: " + essentialsBar );
+        System.out.println("Education: "  + educationBar );
+        System.out.println("Health: " + healthBar );
+        System.out.println("Entertainment: " + entertainmentBar );
+        System.out.println("Other: " + otherBar );
+        System.out.println("==========================");
+
+
+
+
+
+
+
+
 
 
     }
