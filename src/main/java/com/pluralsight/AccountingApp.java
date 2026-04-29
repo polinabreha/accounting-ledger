@@ -220,7 +220,7 @@ public class AccountingApp {
              System.out.println("H) Home       - Go back to home screen");
              System.out.println("================================");
              System.out.print("Enter your choice: ");
-             String choice = input.nextLine().toUpperCase();
+             String choice = input.nextLine().toUpperCase().trim();
              account.clear();
 
              BufferedReader br = new BufferedReader(new FileReader("src/main/resources/transactions.csv"));
