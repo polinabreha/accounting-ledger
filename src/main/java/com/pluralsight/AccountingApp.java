@@ -35,7 +35,7 @@ public class AccountingApp {
                System.out.println("V) View Account Statement");
                System.out.println("L) Log Out");
                System.out.print("Enter the letter of the choice: ");
-               String choice = input.nextLine().toUpperCase();
+               String choice = input.nextLine().toUpperCase().trim();
 
                switch (choice) {
                    case "D" :
@@ -570,14 +570,6 @@ public class AccountingApp {
         System.out.println("==========================");
 
 
-
-
-
-
-
-
-
-
     }
 
 
@@ -630,9 +622,4 @@ public class AccountingApp {
 
 
     }
-
-
-
-
-
 }
