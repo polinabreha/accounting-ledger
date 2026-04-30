@@ -552,7 +552,7 @@ public class AccountingApp {
     }
 
     public static void logo2() {
-        System.out.println(ANSI_Cyan + "-----------------------S T E E L  C I T Y-----------------------" +ANSI_RESET);
+        System.out.println("-----------------------" +ANSI_Cyan + "S T E E L  C I T Y"+ ANSI_RESET+ "-----------------------" );
         System.out.println("----------------------------------------------------------------");
         System.out.println(ANSI_BRIGHT_BLUE +"--------------THANK YOU FOR VISITING US TODAY!!!----------------" +ANSI_RESET);
         System.out.println("----------------------------------------------------------------");
