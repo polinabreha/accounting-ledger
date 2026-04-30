@@ -541,22 +541,22 @@ public class AccountingApp {
         String entertainmentBar = "";
         String otherBar = "";
         for (Transactions t : account) {
-            if (t.getCategory().equalsIgnoreCase("Food")) {
+            if (t.getAmount() < 0 && t.getCategory().equalsIgnoreCase("Food")) {
                 foodBar += "#";
             }
-            if (t.getCategory().equalsIgnoreCase("Essentials")) {
+            if (t.getAmount() < 0 && t.getCategory().equalsIgnoreCase("Essentials")) {
                 essentialsBar += "#";
             }
-            if (t.getCategory().equalsIgnoreCase("Education")) {
+            if (t.getAmount() < 0 && t.getCategory().equalsIgnoreCase("Education")) {
                 educationBar += "#";
             }
-            if (t.getCategory().equalsIgnoreCase("Health")) {
+            if (t.getAmount() < 0 && t.getCategory().equalsIgnoreCase("Health")) {
                 healthBar += "#";
             }
-            if (t.getCategory().equalsIgnoreCase("Entertainment")) {
+            if (t.getAmount() < 0 && t.getCategory().equalsIgnoreCase("Entertainment")) {
                 entertainmentBar += "#";
             }
-            if (t.getCategory().equalsIgnoreCase("Other")) {
+            if (t.getAmount() < 0 && t.getCategory().equalsIgnoreCase("Other")) {
                 otherBar += "#";
             }
         }
