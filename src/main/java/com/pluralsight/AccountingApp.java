@@ -10,10 +10,13 @@ public class AccountingApp {
     static final DateTimeFormatter dateFormatted = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     static final DateTimeFormatter timeFormatted = DateTimeFormatter.ofPattern("HH:mm:ss");
 
+    public static final String ANSI_BRIGHT_BLUE = "\u001B[96m";
+    public static final String ANSI_RESET = "\u001B[0m";
+    public static final String ANSI_Cyan = "\u001B[36m";
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
 
-        System.out.println("-------------------Welcome at the \"Steel City\" Bank-------------------");
+        System.out.println(ANSI_BRIGHT_BLUE + "-------------------Welcome at the \"Steel City\" Bank-------------------" + ANSI_RESET);
         logo();
         homeScreen(input);
 
@@ -24,10 +27,10 @@ public class AccountingApp {
         boolean runTheProgram = true;
        try {
            LocalDateTime dateTime = LocalDateTime.now();
-           System.out.println("Start the program: " +dateTime.format(dateFormatted) + " " + dateTime.format(timeFormatted));
+           System.out.println(ANSI_Cyan + "Start the program: " +dateTime.format(dateFormatted) + " " + dateTime.format(timeFormatted) + ANSI_RESET);
            while (runTheProgram) {
 
-               System.out.println("Choose of the following options:");
+               System.out.println(ANSI_BRIGHT_BLUE + "Choose of the following options:" + ANSI_RESET);
                System.out.println("D) Deposit Funds");
                System.out.println("P) Withdraw / Pay");
                System.out.println("V) View Account Statement");
@@ -47,7 +50,7 @@ public class AccountingApp {
                        break;
                    case "L" :
                        LocalDateTime now = LocalDateTime.now();
-                       System.out.println("End the program: " + now.format(dateFormatted) + " " +  now.format(timeFormatted));
+                       System.out.println(ANSI_Cyan + "End the program: " + now.format(dateFormatted) + " " +  now.format(timeFormatted) + ANSI_RESET);
                        logo2();
                        runTheProgram = false;
                        break;
@@ -71,8 +74,8 @@ public class AccountingApp {
     public static void deposit(Scanner input, ArrayList<Transactions> account) {
         try {
             LocalDateTime depositTime = LocalDateTime.now();
-            System.out.print("Enter the information about the deposit transaction " +
-                    "\n(Example: Paycheck, Invoice 1003 paid, Bonus payment): ");
+            System.out.print(ANSI_BRIGHT_BLUE + "Enter the information about the deposit transaction " +
+                    "\n(Example: Paycheck, Invoice 1003 paid, Bonus payment): " + ANSI_RESET);
             String depositInfo = input.nextLine();
 
             System.out.print("Enter please the Vendor / Source : ");
@@ -138,7 +141,7 @@ public class AccountingApp {
     public static void payment(Scanner input, ArrayList<Transactions> account) {
         try {
             LocalDateTime depositTime = LocalDateTime.now();
-            System.out.print("Enter the information about your payment: ");
+            System.out.print(ANSI_BRIGHT_BLUE + "Enter the information about your payment: " + ANSI_RESET);
             String payInfo = input.nextLine();
 
             System.out.print("Enter please the Vendor / Source : ");
@@ -206,7 +209,7 @@ public class AccountingApp {
     public static void accountStatementScreen(Scanner input, ArrayList<Transactions> account) {
      try {
          while (true) {
-             System.out.println("========== View Account Statement ==========");
+             System.out.println(ANSI_Cyan + "========== View Account Statement ==========" + ANSI_RESET);
              System.out.println("A) All        - Display all entries");
              System.out.println("D) Deposits   - Display only deposits");
              System.out.println("P) Payments   - Display only payments");
@@ -216,7 +219,7 @@ public class AccountingApp {
              System.out.println("S) Spending   - By category");
              System.out.println("Q) Spending chart - display spending bar");
              System.out.println("H) Home       - Go back to home screen");
-             System.out.println("================================");
+             System.out.println(ANSI_Cyan + "================================" + ANSI_RESET);
              System.out.print("Enter your choice: ");
              String choice = input.nextLine().toUpperCase().trim();
              account.clear();
@@ -286,7 +289,7 @@ public class AccountingApp {
         try {
             while (true) {
                 boolean found = false;
-                System.out.println("========== REPORTS ==========");
+                System.out.println(ANSI_Cyan + "========== REPORTS ==========" + ANSI_RESET);
                 System.out.println("1) Month To Date");
                 System.out.println("2) Previous Month");
                 System.out.println("3) Year To Date");
@@ -466,11 +469,11 @@ public class AccountingApp {
 
         }
         double total = deposit + payments;
-        System.out.println("===== BALANCE =====");
+        System.out.println( ANSI_Cyan + "===== BALANCE =====" + ANSI_RESET);
         System.out.printf("Total Deposits : $%,.2f%n" , deposit);
         System.out.printf("Total Withdrawals : $%,.2f%n", payments);
         System.out.printf("Current Balance: $%,.2f%n" , total);
-        System.out.println("===================");
+        System.out.println(ANSI_Cyan +"==================="+ ANSI_RESET);
 
     }
 
@@ -485,7 +488,7 @@ public class AccountingApp {
             }
 
         }
-        System.out.println("===== SPENDING BY CATEGORY =====");
+        System.out.println(ANSI_Cyan + "===== SPENDING BY CATEGORY ====="+ ANSI_RESET);
         for (String category : categoryTotals.keySet()) {
             System.out.printf(
                     "%s: $%.2f%n",
@@ -493,7 +496,7 @@ public class AccountingApp {
                     categoryTotals.get(category)
             );
         }
-        System.out.println("=================================");
+        System.out.println(ANSI_Cyan +"=================================" +ANSI_RESET);
 
 
     }
@@ -507,7 +510,7 @@ public class AccountingApp {
                 spendingBars.put(category, spendingBars.getOrDefault(category, 0) + 1);
             }
         }
-        System.out.println("===== SPENDING CHART =====");
+        System.out.println(ANSI_Cyan + "===== SPENDING CHART =====" + ANSI_RESET);
        for(String category : spendingBars.keySet()) {
            int count = spendingBars.get(category);
            String bar = "";
@@ -516,7 +519,7 @@ public class AccountingApp {
            }
            System.out.println(category + ": " + bar);
        }
-        System.out.println("==========================");
+        System.out.println(ANSI_Cyan + "==========================" +ANSI_RESET);
 
 
     }
@@ -549,9 +552,9 @@ public class AccountingApp {
     }
 
     public static void logo2() {
-        System.out.println("-----------------------S T E E L  C I T Y-----------------------");
+        System.out.println(ANSI_Cyan + "-----------------------S T E E L  C I T Y-----------------------" +ANSI_RESET);
         System.out.println("----------------------------------------------------------------");
-        System.out.println("--------------THANK YOU FOR VISITING US TODAY!!!----------------");
+        System.out.println(ANSI_BRIGHT_BLUE +"--------------THANK YOU FOR VISITING US TODAY!!!----------------" +ANSI_RESET);
         System.out.println("----------------------------------------------------------------");
 
         String logo2 = """
