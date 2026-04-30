@@ -183,7 +183,7 @@ public class AccountingApp {
                     System.out.println("Invalid choice");
             }
 
-            while (amount > 0) {
+            if (amount > 0) {
                 amount = amount * -1;
             }
             Transactions t = new Transactions(
