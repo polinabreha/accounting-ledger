@@ -209,7 +209,7 @@ public class AccountingApp {
     public static void accountStatementScreen(Scanner input, ArrayList<Transactions> account) {
      try {
          while (true) {
-             System.out.println(ANSI_Cyan + "========== View Account Statement ==========" + ANSI_RESET);
+             System.out.println(ANSI_BRIGHT_BLUE + "========== View Account Statement ==========" + ANSI_RESET);
              System.out.println("A) All        - Display all entries");
              System.out.println("D) Deposits   - Display only deposits");
              System.out.println("P) Payments   - Display only payments");
@@ -219,7 +219,7 @@ public class AccountingApp {
              System.out.println("S) Spending   - By category");
              System.out.println("Q) Spending chart - display spending bar");
              System.out.println("H) Home       - Go back to home screen");
-             System.out.println(ANSI_Cyan + "================================" + ANSI_RESET);
+             System.out.println(ANSI_BRIGHT_BLUE + "================================" + ANSI_RESET);
              System.out.print("Enter your choice: ");
              String choice = input.nextLine().toUpperCase().trim();
              account.clear();
@@ -289,7 +289,7 @@ public class AccountingApp {
         try {
             while (true) {
                 boolean found = false;
-                System.out.println(ANSI_Cyan + "========== REPORTS ==========" + ANSI_RESET);
+                System.out.println(ANSI_BRIGHT_BLUE + "========== REPORTS ==========" + ANSI_RESET);
                 System.out.println("1) Month To Date");
                 System.out.println("2) Previous Month");
                 System.out.println("3) Year To Date");
