@@ -475,96 +475,47 @@ public class AccountingApp {
     }
 
     public static void categoryDisplay ( ArrayList<Transactions> account) {
-        double foodTotal = 0.0;
-        double essentialsTotal = 0.0;
-        double educationTotal = 0.0;
-        double healthTotal = 0.0;
-        double entertainmentTotal = 0.0;
-        double otherTotal = 0.0;
-        double incomeTotal = 0.0;
+        HashMap<String, Double> categoryTotals = new HashMap<>();
 
         for (Transactions t : account) {
-            if (t.getAmount() < 0 && t.getCategory().equalsIgnoreCase("Food")) {
-                foodTotal += t.getAmount();
+            String category = t.getCategory();
+            if(t.getAmount() <0 ){
+                categoryTotals.put(category ,categoryTotals.getOrDefault(category, 0.0)+ t.getAmount());
+
             }
-            if (t.getAmount() < 0 && t.getCategory().equalsIgnoreCase("Essentials")) {
-                essentialsTotal += t.getAmount();
-            }
-            if (t.getAmount() < 0 && t.getCategory().equalsIgnoreCase("Education")) {
-                educationTotal += t.getAmount();
-            }
-            if (t.getAmount() < 0 && t.getCategory().equalsIgnoreCase("Health")) {
-                healthTotal += t.getAmount();
-            }
-            if (t.getAmount() < 0 && t.getCategory().equalsIgnoreCase("Entertainment")) {
-                entertainmentTotal += t.getAmount();
-            }
-            if (t.getAmount() < 0 && t.getCategory().equalsIgnoreCase("Other")) {
-                otherTotal += t.getAmount();
-            }
-            if (t.getAmount() > 0 && t.getCategory().equalsIgnoreCase("Salary")) {
-                incomeTotal += t.getAmount();
-            }
-            if (t.getAmount() > 0 && t.getCategory().equalsIgnoreCase("Freelance")) {
-                incomeTotal += t.getAmount();
-            }
-            if (t.getAmount() > 0 && t.getCategory().equalsIgnoreCase("Gift")) {
-                incomeTotal += t.getAmount();
-            }
-            if (t.getAmount() > 0 && t.getCategory().equalsIgnoreCase("Refund")) {
-                incomeTotal += t.getAmount();
-            }
-            if (t.getAmount() > 0 && t.getCategory().equalsIgnoreCase("Other Income")) {
-                incomeTotal += t.getAmount();
-            }
+
         }
         System.out.println("===== SPENDING BY CATEGORY =====");
-        System.out.printf(" 1. Food Total :$%,.2f%n " , foodTotal);
-        System.out.printf("2. Essential Total :$%,.2f%n " , essentialsTotal);
-        System.out.printf("3. Education Total :$%,.2f%n " , educationTotal);
-        System.out.printf("4. Health Total :$%,.2f%n " , healthTotal);
-        System.out.printf("5. Entertainment Total :$%,.2f%n " , entertainmentTotal);
-        System.out.printf("6. OtherTotal :$%,.2f%n " , otherTotal);
-        System.out.printf("7. Income Total :$%,.2f%n " , incomeTotal);
+        for (String category : categoryTotals.keySet()) {
+            System.out.printf(
+                    "%s: $%.2f%n",
+                    category,
+                    categoryTotals.get(category)
+            );
+        }
         System.out.println("=================================");
 
 
     }
 
     public static void spendingChart ( ArrayList<Transactions> account) {
-        String foodBar = "";
-        String essentialsBar = "";
-        String educationBar = "";
-        String healthBar = "";
-        String entertainmentBar = "";
-        String otherBar = "";
+        HashMap<String, Integer> spendingBars = new HashMap<>();
+
         for (Transactions t : account) {
-            if (t.getAmount() < 0 && t.getCategory().equalsIgnoreCase("Food")) {
-                foodBar += "#";
-            }
-            if (t.getAmount() < 0 && t.getCategory().equalsIgnoreCase("Essentials")) {
-                essentialsBar += "#";
-            }
-            if (t.getAmount() < 0 && t.getCategory().equalsIgnoreCase("Education")) {
-                educationBar += "#";
-            }
-            if (t.getAmount() < 0 && t.getCategory().equalsIgnoreCase("Health")) {
-                healthBar += "#";
-            }
-            if (t.getAmount() < 0 && t.getCategory().equalsIgnoreCase("Entertainment")) {
-                entertainmentBar += "#";
-            }
-            if (t.getAmount() < 0 && t.getCategory().equalsIgnoreCase("Other")) {
-                otherBar += "#";
+            String category = t.getCategory();
+            if(t.getAmount() <0 ){
+                spendingBars.put(category, spendingBars.getOrDefault(category, 0) + 1);
             }
         }
         System.out.println("===== SPENDING CHART =====");
-        System.out.println("Food: " + foodBar );
-        System.out.println("Essentials: " + essentialsBar );
-        System.out.println("Education: "  + educationBar );
-        System.out.println("Health: " + healthBar );
-        System.out.println("Entertainment: " + entertainmentBar );
-        System.out.println("Other: " + otherBar );
+       for(String category : spendingBars.keySet()) {
+           int count = spendingBars.get(category);
+           String bar = "";
+           for( int i = 0; i < count; i++ ) {
+               bar += "#";
+           }
+           System.out.println(category + ": " + bar);
+       }
         System.out.println("==========================");
 
 
