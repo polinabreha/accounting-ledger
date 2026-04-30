@@ -4,9 +4,7 @@ import java.io.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Scanner;
+import java.util.*;
 
 public class AccountingApp {
     static final DateTimeFormatter dateFormatted = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -58,12 +56,12 @@ public class AccountingApp {
                }
 
            }
-       }catch (Exception e) {
-           System.out.println(e.getMessage());
+       }catch (InputMismatchException e) {
+           System.out.println("Invalid input" + e.getMessage());
        }
 
     }
-    public static void bufferedwriter(Transactions t) throws Exception{
+    public static void bufferedwriter(Transactions t) throws IOException{
         BufferedWriter bw = new BufferedWriter(new FileWriter("src/main/resources/transactions.csv", true));
         bw.write(t.toString() + "\n");
         bw.close();
@@ -85,7 +83,7 @@ public class AccountingApp {
             input.nextLine();
 
 
-            if (amount < 0) {
+            while (amount < 0) {
                 System.out.print("Please enter a positive value: $ ");
                 amount = input.nextDouble();
                 input.nextLine();
@@ -132,7 +130,7 @@ public class AccountingApp {
             );
             bufferedwriter(t);
             account.add(t);
-        }catch (Exception e) {
+        }catch (IOException | InputMismatchException e) {
             System.out.println(e.getMessage());
         }
     }
@@ -155,7 +153,7 @@ public class AccountingApp {
             System.out.println("2. Education (Courses,Books,Subscriptions (learning platforms) )");
             System.out.println("3. Food (grocery shopping, eating out)");
             System.out.println("4. Health (medical bills,pharmacy, gym)");
-            System.out.println("5. Entertainment (Movies, Games, Streaming)" );
+            System.out.println("5. Entertainment (Movies, Games, Streaming)");
             System.out.println("6. Other");
             System.out.print("Enter the choice : ");
             String category = "";
@@ -178,14 +176,14 @@ public class AccountingApp {
                 case 5:
                     category = "Entertainment";
                     break;
-                case 6  :
+                case 6:
                     category = "Other";
                     break;
                 default:
                     System.out.println("Invalid choice");
             }
 
-            if (amount > 0) {
+            while (amount > 0) {
                 amount = amount * -1;
             }
             Transactions t = new Transactions(
@@ -200,8 +198,8 @@ public class AccountingApp {
             bufferedwriter(t);
             account.add(t);
 
-        }catch (Exception e) {
-            System.out.println(e.getMessage());
+        } catch (IOException e) {
+            System.out.println("Invalid input"+ e.getMessage());
         }
     }
 
@@ -367,7 +365,7 @@ public class AccountingApp {
                 }
             }
 
-        }catch (Exception e) {
+        }catch (InputMismatchException e) {
             System.out.println("Invalid choice, please try again.");
         }
     }
@@ -449,7 +447,7 @@ public class AccountingApp {
             if (!found) {
                 System.out.println("No transactions found");
             }
-        }catch (Exception e) {
+        }catch (InputMismatchException e) {
             System.out.println("Invalid choice, please try again.");
         }
     }
