@@ -13,6 +13,7 @@ public class AccountingApp {
     public static final String ANSI_BRIGHT_BLUE = "\u001B[96m";
     public static final String ANSI_RESET = "\u001B[0m";
     public static final String ANSI_Cyan = "\u001B[36m";
+
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
 
